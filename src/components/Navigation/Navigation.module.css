@@ -1,0 +1,14 @@
+.link {
+  padding: 15px;
+  color: black;
+}
+
+.link:not(:last-child) {
+  margin-right: 25px;
+}
+
+.link:hover,
+.link:focus {
+  color: tomato;
+  outline: none;
+}

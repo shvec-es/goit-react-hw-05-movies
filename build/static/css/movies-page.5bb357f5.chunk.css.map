@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/pages/MoviePage/MoviePage.module.css"],"names":[],"mappings":"AAAA,uBACE,kBACF,CAEA,uBACE,gBACF,CAEA,6BACE,YACF","file":"movies-page.5bb357f5.chunk.css","sourcesContent":[".form {\r\n  margin-bottom: 15px;\r\n}\r\n\r\n.list {\r\n  margin-left: 15px;\r\n}\r\n\r\n.item:hover {\r\n  color: tomato;\r\n}\r\n"]}

@@ -1,0 +1,12 @@
+.title {
+  margin-bottom: 30px;
+  text-align: center;
+  color: tomato;
+}
+
+.list {
+  margin-left: 15px;
+}
+.item:hover {
+  color: tomato;
+}

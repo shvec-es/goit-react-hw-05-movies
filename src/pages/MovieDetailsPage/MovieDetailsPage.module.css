@@ -1,0 +1,24 @@
+.btn {
+  margin-bottom: 15px;
+}
+
+.btn:hover {
+  color: tomato;
+  border-color: tomato;
+}
+
+.description {
+  display: flex;
+}
+
+.poster {
+  margin-right: 30px;
+}
+
+.text {
+  margin-bottom: 10px;
+}
+
+.item:hover {
+  color: tomato;
+}
