@@ -20,6 +20,10 @@ function MoviesPage() {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem('findingMovies', JSON.stringify(movies));
+  }, [movies]);
+
+  useEffect(() => {
     if (query.trim() === '') {
       return;
     }
@@ -36,9 +40,7 @@ function MoviesPage() {
         console.log(err);
         alert('Oops...something wrong');
       });
-
-    localStorage.setItem('findingMovies', JSON.stringify(movies));
-  }, [movies, query]);
+  }, [query]);
 
   const handleSearchForm = e => {
     e.preventDefault();
@@ -50,6 +52,7 @@ function MoviesPage() {
 
     setQuery(e.target.query.value);
     navigate({ ...location, search: `query=${e.target.query.value}` });
+
     e.target.query.value = '';
   };
 
@@ -57,14 +60,16 @@ function MoviesPage() {
     <>
       <form className={s.form} onSubmit={handleSearchForm}>
         <input type="text" name="query" autoComplete="off"></input>
-        <button type="button">Search</button>
+        <button type="submit">Search</button>
       </form>
 
       {movies.length > 0 && (
         <ul className={s.list}>
           {movies.map(movie => (
             <li className={s.item} key={movie.id}>
-              <Link to={`${movie.id}`}>{movie.title}</Link>
+              <Link to={`${movie.id}`} state={{ from: location }}>
+                {movie.title}
+              </Link>
             </li>
           ))}
         </ul>

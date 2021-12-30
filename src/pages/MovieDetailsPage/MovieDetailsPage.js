@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, NavLink, Outlet } from 'react-router-dom';
+import {
+  useParams,
+  useNavigate,
+  useLocation,
+  NavLink,
+  Outlet,
+} from 'react-router-dom';
 
 import { fetchMovieDetails } from 'services/movie-searcher-api';
 import s from './MovieDetailsPage.module.css';
@@ -7,6 +13,7 @@ import s from './MovieDetailsPage.module.css';
 function MovieDetailsPage() {
   const { movieId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [movieDetails, setMovieDetails] = useState({});
   const [status, setStatus] = useState('pending');
@@ -24,7 +31,7 @@ function MovieDetailsPage() {
   }, [movieId]);
 
   const backToMovies = () => {
-    navigate(-1);
+    navigate(location.state.from);
   };
 
   if (status === 'pending') {
@@ -73,10 +80,14 @@ function MovieDetailsPage() {
           <hr />
           <ul>
             <li className={s.item}>
-              <NavLink to="cast">Cast</NavLink>
+              <NavLink to="cast" state={{ from: location.state.from }}>
+                Cast
+              </NavLink>
             </li>
             <li className={s.item}>
-              <NavLink to="reviews">Reviews</NavLink>
+              <NavLink to="reviews" state={{ from: location.state.from }}>
+                Reviews
+              </NavLink>
             </li>
           </ul>
           <hr />

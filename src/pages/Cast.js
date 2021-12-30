@@ -4,6 +4,7 @@ import { fetchCast } from 'services/movie-searcher-api';
 
 function Cast() {
   const { movieId } = useParams();
+
   const [actors, setActors] = useState([]);
 
   useEffect(() => {

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { fetchTrendings } from 'services/movie-searcher-api';
 import s from './HomePage.module.css';
 
 function HomePage() {
+  const location = useLocation();
   const [trends, setTrends] = useState([]);
 
   useEffect(() => {
@@ -21,7 +22,9 @@ function HomePage() {
       <ul className={s.list}>
         {trends.map(({ id, title, name }) => (
           <li key={id} className={s.item}>
-            <Link to={`/movies/${id}`}>{title ? title : name}</Link>
+            <Link to={`/movies/${id}`} state={{ from: location }}>
+              {title ? title : name}
+            </Link>
           </li>
         ))}
       </ul>
