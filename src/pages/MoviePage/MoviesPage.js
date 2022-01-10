@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { fetchSearcMovie } from 'services/movie-searcher-api';
 import s from './MoviePage.module.css';
+import Gallery from 'components/Gallery';
+import { toast } from 'react-toastify';
 
 function MoviesPage() {
   const navigate = useNavigate();
@@ -33,12 +35,12 @@ function MoviesPage() {
         if (data.results.length > 0) {
           setMovies(data.results);
         } else {
-          alert('Enter correct querry');
+          toast.warning('Enter correct querry');
         }
       })
       .catch(err => {
         console.log(err);
-        alert('Oops...something wrong');
+        toast.error('Oops...something wrong');
       });
   }, [query]);
 
@@ -46,7 +48,7 @@ function MoviesPage() {
     e.preventDefault();
 
     if (e.target.query.value.trim() === '') {
-      alert('Enter word for search');
+      toast.warning('Enter word for search');
       return;
     }
 
@@ -59,16 +61,25 @@ function MoviesPage() {
   return (
     <>
       <form className={s.form} onSubmit={handleSearchForm}>
-        <input type="text" name="query" autoComplete="off"></input>
-        <button type="submit">Search</button>
+        <input
+          type="text"
+          className={s.input}
+          name="query"
+          autoComplete="off"
+          placeholder="Enter word for search"
+        ></input>
+        <button type="submit" className={s.btn}></button>
       </form>
 
       {movies.length > 0 && (
         <ul className={s.list}>
-          {movies.map(movie => (
-            <li className={s.item} key={movie.id}>
-              <Link to={`${movie.id}`} state={{ from: location }}>
-                {movie.title}
+          {movies.map(({ id, poster_path, title, name }) => (
+            <li className={s.item} key={id}>
+              <Link
+                to={`${id}`}
+                state={{ from: location, label: 'to Movies page' }}
+              >
+                <Gallery poster={poster_path} title={title} name={name} />
               </Link>
             </li>
           ))}

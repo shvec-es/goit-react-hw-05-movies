@@ -11,14 +11,20 @@ function Reviews() {
   }, [movieId]);
 
   return (
-    <ul>
-      {review.map(item => (
-        <li key={item.id}>
-          <p style={{ fontWeight: 500 }}>Author: {item.author}</p>
-          <p style={{ marginBottom: 10 }}>{item.content}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      {review.length > 0 ? (
+        <ul>
+          {review.map(item => (
+            <li key={item.id}>
+              <p style={{ fontWeight: 500 }}>Author: {item.author}</p>
+              <p style={{ marginBottom: 10 }}>{item.content}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>We don't have reviews for this movie</p>
+      )}
+    </>
   );
 }
 

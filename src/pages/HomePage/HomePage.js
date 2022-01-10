@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { fetchTrendings } from 'services/movie-searcher-api';
 import s from './HomePage.module.css';
+import Gallery from 'components/Gallery';
 
 function HomePage() {
   const location = useLocation();
@@ -20,10 +21,13 @@ function HomePage() {
     <>
       <h1 className={s.title}>Trending Today</h1>
       <ul className={s.list}>
-        {trends.map(({ id, title, name }) => (
+        {trends.map(({ id, poster_path, title, name }) => (
           <li key={id} className={s.item}>
-            <Link to={`/movies/${id}`} state={{ from: location }}>
-              {title ? title : name}
+            <Link
+              to={`/movies/${id}`}
+              state={{ from: location, label: 'to Home page' }}
+            >
+              <Gallery poster={poster_path} title={title} name={name} />
             </Link>
           </li>
         ))}

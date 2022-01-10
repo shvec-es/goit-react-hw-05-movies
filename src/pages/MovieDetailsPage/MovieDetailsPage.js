@@ -9,12 +9,14 @@ import {
 
 import { fetchMovieDetails } from 'services/movie-searcher-api';
 import s from './MovieDetailsPage.module.css';
+import noimage from '../../images/noimage.jpg';
+import { toast } from 'react-toastify';
 
 function MovieDetailsPage() {
   const { movieId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-
+  console.log(location);
   const [movieDetails, setMovieDetails] = useState({});
   const [status, setStatus] = useState('pending');
 
@@ -31,7 +33,13 @@ function MovieDetailsPage() {
   }, [movieId]);
 
   const backToMovies = () => {
-    navigate(location.state.from);
+    if (location && location.state && location.state.from) {
+      navigate(location.state.from);
+
+      return;
+    }
+
+    navigate('/');
   };
 
   if (status === 'pending') {
@@ -45,14 +53,17 @@ function MovieDetailsPage() {
     return (
       <>
         <button className={s.btn} type="button" onClick={backToMovies}>
-          Go back
+          Go {location.state.label}
         </button>
         <article>
           <div className={s.description}>
             <img
-              src={`https://www.themoviedb.org/t/p/w500${movieDetails.poster_path}`}
+              src={
+                movieDetails.poster_path
+                  ? `https://www.themoviedb.org/t/p/w500${movieDetails.poster_path}`
+                  : noimage
+              }
               alt={movieDetails.title}
-              width={260}
               className={s.poster}
             />
             <div>
@@ -78,14 +89,20 @@ function MovieDetailsPage() {
           </div>
 
           <hr />
-          <ul>
+          <ul className={s.list}>
             <li className={s.item}>
-              <NavLink to="cast" state={{ from: location.state.from }}>
+              <NavLink
+                to="cast"
+                state={{ from: location.state.from, label: 'back' }}
+              >
                 Cast
               </NavLink>
             </li>
             <li className={s.item}>
-              <NavLink to="reviews" state={{ from: location.state.from }}>
+              <NavLink
+                to="reviews"
+                state={{ from: location.state.from, label: 'back' }}
+              >
                 Reviews
               </NavLink>
             </li>
@@ -98,7 +115,7 @@ function MovieDetailsPage() {
   }
 
   if (status === 'error') {
-    return alert('Oops...something wrong');
+    return toast.error('Oops...something wrong');
   }
 }
 

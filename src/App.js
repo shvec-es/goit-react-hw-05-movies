@@ -1,5 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Container from 'components/Container';
 import Navigation from 'components/Navigation';
@@ -15,7 +17,9 @@ const MovieDetailsPage = lazy(() =>
     'pages/MovieDetailsPage/MovieDetailsPage.js' /* webpackChunkName: "movie-details-page" */
   ),
 );
-const Cast = lazy(() => import('pages/Cast.js' /* webpackChunkName: "cast" */));
+const Cast = lazy(() =>
+  import('pages/Cast/Cast.js' /* webpackChunkName: "cast" */),
+);
 const Reviews = lazy(() =>
   import('pages/Reviews.js' /* webpackChunkName: "reviews" */),
 );
@@ -23,6 +27,7 @@ const Reviews = lazy(() =>
 function App() {
   return (
     <Container>
+      <ToastContainer autoClose={2000} theme="colored" />
       <Navigation />
       <Suspense fallback={<h2>Loading</h2>}>
         <Routes>

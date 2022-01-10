@@ -16,6 +16,7 @@ ul,
 ol {
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
 a {
@@ -33,6 +34,9 @@ p {
   margin: 0;
 }
 
-.active {
-  color: tomato;
+nav .active,
+ul .active {
+  color: rgb(96, 89, 110);
+  background-color: rgb(250, 244, 243);
+  border-color: rgb(96, 89, 110);
 }

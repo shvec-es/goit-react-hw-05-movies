@@ -1,6 +1,8 @@
 .link {
-  padding: 15px;
-  color: black;
+  padding: 3px;
+  background-color: rgb(96, 89, 110);
+  color: rgb(250, 244, 243);
+  border: 2px solid rgb(96, 89, 110);
 }
 
 .link:not(:last-child) {
@@ -9,6 +11,7 @@
 
 .link:hover,
 .link:focus {
-  color: tomato;
-  outline: none;
+  color: rgb(96, 89, 110);
+  background-color: rgb(250, 244, 243);
+  border-color: rgb(250, 244, 243);
 }

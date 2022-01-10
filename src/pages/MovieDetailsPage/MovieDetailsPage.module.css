@@ -1,10 +1,16 @@
 .btn {
+  height: 35px;
   margin-bottom: 15px;
+  border: 2px solid rgb(96, 89, 110);
+  background-color: rgb(96, 89, 110);
+  color: rgb(250, 244, 243);
 }
 
 .btn:hover {
-  color: tomato;
-  border-color: tomato;
+  color: rgb(96, 89, 110);
+  background-color: rgb(250, 244, 243);
+  border-color: rgb(250, 244, 243);
+  cursor: pointer;
 }
 
 .description {
@@ -13,12 +19,31 @@
 
 .poster {
   margin-right: 30px;
+  width: 260px;
 }
 
 .text {
   margin-bottom: 10px;
 }
 
-.item:hover {
-  color: tomato;
+.list {
+  display: flex;
+}
+
+.item {
+  padding: 3px;
+  background-color: rgb(96, 89, 110);
+  color: rgb(250, 244, 243);
+  border: 2px solid rgb(96, 89, 110);
+}
+
+.item:not(:last-child) {
+  margin-right: 25px;
+}
+
+.item:hover,
+.item:focus {
+  color: rgb(96, 89, 110);
+  background-color: rgb(250, 244, 243);
+  border-color: rgb(250, 244, 243);
 }

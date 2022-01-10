@@ -1,0 +1,27 @@
+.list {
+  display: grid;
+  width: 880px;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+
+  grid-gap: 20px;
+  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.item {
+  box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
+}
+
+.poster {
+  display: block;
+  width: 100%;
+  min-height: 160px;
+}
+
+.text {
+  padding-left: 5px;
+  font-size: 12px;
+}
