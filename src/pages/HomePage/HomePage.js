@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import { Pagination, PaginationItem } from '@mui/material';
 import { fetchTrendings } from 'services/movie-searcher-api';
 import s from './HomePage.module.css';
 import Gallery from 'components/Gallery';
@@ -8,14 +9,21 @@ import Gallery from 'components/Gallery';
 function HomePage() {
   const location = useLocation();
   const [trends, setTrends] = useState([]);
-
+  const [page, setPage] = useState(
+    parseInt(location.search?.split('=')[1] || 1),
+  );
+  const [allPages, setAllPages] = useState(0);
+  console.log(location);
   useEffect(() => {
-    fetchTrendings().then(data => setTrends(data.results));
+    fetchTrendings(page).then(data => {
+      setTrends(data.results);
+      setAllPages(data.total_pages);
+    });
 
     return () => {
       localStorage.removeItem('findingMovies');
     };
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -32,6 +40,21 @@ function HomePage() {
           </li>
         ))}
       </ul>
+      <Pagination
+        count={allPages}
+        page={page}
+        onChange={(_, num) => setPage(num)}
+        sx={{ display: 'flex', justifyContent: 'center' }}
+        showFirstButton
+        showLastButton
+        renderItem={item => (
+          <PaginationItem
+            component={Link}
+            to={`?page=${item.page}`}
+            {...item}
+          />
+        )}
+      />
     </>
   );
 }

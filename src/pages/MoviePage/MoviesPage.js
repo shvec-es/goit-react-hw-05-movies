@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { Pagination, PaginationItem } from '@mui/material';
 import { fetchSearcMovie } from 'services/movie-searcher-api';
 import s from './MoviePage.module.css';
 import Gallery from 'components/Gallery';
@@ -12,6 +13,8 @@ function MoviesPage() {
 
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
+  const [allPages, setAllPages] = useState(0);
 
   useEffect(() => {
     const currentMovies = JSON.parse(localStorage.getItem('findingMovies'));
@@ -30,10 +33,11 @@ function MoviesPage() {
       return;
     }
 
-    fetchSearcMovie(query)
+    fetchSearcMovie(query, page)
       .then(data => {
         if (data.results.length > 0) {
           setMovies(data.results);
+          setAllPages(data.total_pages);
         } else {
           toast.warning('Enter correct querry');
         }
@@ -42,7 +46,7 @@ function MoviesPage() {
         console.log(err);
         toast.error('Oops...something wrong');
       });
-  }, [query]);
+  }, [page, query]);
 
   const handleSearchForm = e => {
     e.preventDefault();
@@ -72,18 +76,35 @@ function MoviesPage() {
       </form>
 
       {movies.length > 0 && (
-        <ul className={s.list}>
-          {movies.map(({ id, poster_path, title, name }) => (
-            <li className={s.item} key={id}>
-              <Link
-                to={`${id}`}
-                state={{ from: location, label: 'to Movies page' }}
-              >
-                <Gallery poster={poster_path} title={title} name={name} />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className={s.list}>
+            {movies.map(({ id, poster_path, title, name }) => (
+              <li className={s.item} key={id}>
+                <Link
+                  to={`${id}`}
+                  state={{ from: location, label: 'to Movies page' }}
+                >
+                  <Gallery poster={poster_path} title={title} name={name} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Pagination
+            count={allPages}
+            page={page}
+            onChange={(_, num) => setPage(num)}
+            sx={{ display: 'flex', justifyContent: 'center' }}
+            showFirstButton
+            showLastButton
+            renderItem={item => (
+              <PaginationItem
+                component={Link}
+                to={`/movies?query=${query}&page=${item.page}`}
+                {...item}
+              />
+            )}
+          />
+        </>
       )}
     </>
   );
