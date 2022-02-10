@@ -6,7 +6,7 @@ import {
   NavLink,
   Outlet,
 } from 'react-router-dom';
-
+import { Audio } from 'react-loader-spinner';
 import { fetchMovieDetails } from 'services/movie-searcher-api';
 import s from './MovieDetailsPage.module.css';
 import noimage from '../../images/noimage.jpg';
@@ -16,7 +16,6 @@ function MovieDetailsPage() {
   const { movieId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const [movieDetails, setMovieDetails] = useState({});
   const [status, setStatus] = useState('pending');
 
@@ -35,7 +34,6 @@ function MovieDetailsPage() {
   const backToMovies = () => {
     if (location && location.state && location.state.from) {
       navigate(location.state.from);
-
       return;
     }
 
@@ -43,7 +41,18 @@ function MovieDetailsPage() {
   };
 
   if (status === 'pending') {
-    return <h2>Loading...</h2>;
+    return (
+      <Audio
+        color="#BC8F8F"
+        height={50}
+        width={50}
+        wrapperStyle={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: '50px',
+        }}
+      />
+    );
   }
 
   if (status === 'response') {

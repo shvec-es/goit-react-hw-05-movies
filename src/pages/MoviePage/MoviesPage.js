@@ -16,37 +16,41 @@ function MoviesPage() {
   const [page, setPage] = useState(1);
   const [allPages, setAllPages] = useState(0);
 
-  useEffect(() => {
-    const currentMovies = JSON.parse(localStorage.getItem('findingMovies'));
+  const searchQuery = new URLSearchParams(location.search).get('query');
+  const currentPage = new URLSearchParams(location.search).get('page');
 
-    if (currentMovies) {
-      setMovies(currentMovies);
+  useEffect(() => {
+    if (!searchQuery) {
+      return;
     }
-  }, []);
 
-  useEffect(() => {
-    localStorage.setItem('findingMovies', JSON.stringify(movies));
-  }, [movies]);
+    getCurrentMoviesPage(searchQuery, currentPage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (query.trim() === '') {
       return;
     }
 
+    getCurrentMoviesPage(query, page);
+  }, [query, page]);
+
+  const getCurrentMoviesPage = (query, page) => {
     fetchSearcMovie(query, page)
       .then(data => {
         if (data.results.length > 0) {
           setMovies(data.results);
           setAllPages(data.total_pages);
         } else {
-          toast.warning('Enter correct querry');
+          toast.warning('Enter correct query');
         }
       })
       .catch(err => {
         console.log(err);
         toast.error('Oops...something wrong');
       });
-  }, [page, query]);
+  };
 
   const handleSearchForm = e => {
     e.preventDefault();
@@ -57,7 +61,10 @@ function MoviesPage() {
     }
 
     setQuery(e.target.query.value);
-    navigate({ ...location, search: `query=${e.target.query.value}` });
+    navigate({
+      ...location,
+      search: `query=${e.target.query.value}&page=${page}`,
+    });
 
     e.target.query.value = '';
   };
@@ -82,7 +89,10 @@ function MoviesPage() {
               <li className={s.item} key={id}>
                 <Link
                   to={`${id}`}
-                  state={{ from: location, label: 'to Movies page' }}
+                  state={{
+                    from: location,
+                    label: 'to Movies page',
+                  }}
                 >
                   <Gallery poster={poster_path} title={title} name={name} />
                 </Link>

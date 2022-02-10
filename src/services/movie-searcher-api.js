@@ -8,8 +8,10 @@ async function mainFetch(url = '') {
     : Promise.reject(new Error('Not found'));
 }
 
-export function fetchTrendings(page) {
-  return mainFetch(`${BASE_URL}/trending/movies/day${API_KEY}&page=${page}`);
+export async function fetchTrendings(page) {
+  return await mainFetch(
+    `${BASE_URL}/trending/movies/day${API_KEY}&page=${page}`,
+  );
 }
 
 export function fetchSearcMovie(query, page) {
